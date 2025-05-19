@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tag Cloud</title>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Manrope', sans-serif;
+      background-color: transparent;
+    }
+
+    .tag-marquee-container {
+      overflow: hidden;
+      width: 100%;
+      background-color: transparent;
+    }
+
+    .tag-marquee {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      animation: scroll 50s linear infinite;
+      width: 4000px;
+      align-items: center;
+    }
+    
+
+
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 0.3em 0.8em;
+      font-weight: 500;
+      border-radius: 999px;
+      white-space: nowrap;
+      background-color: var(--pastel-color);
+      color: #333;
+      transition: transform 0.3s ease;
+    }
+
+    .tag:hover {
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+
+<div class="tag-marquee-container">
+  <div class="tag-marquee" id="tagMarquee">
+    <!-- Tags will be injected here -->
+  </div>
+</div>
+
+<script>
+  // Tag data with counts
+  const tagData = {
+    "Java": 4, "MySQL": 2, "JavaFX": 3, "SceneBuilder": 2, "Software Engineering": 2,
+    "UML": 2, "C": 1, "CMake": 1, "Testing": 3, "PHP": 1, "HTML": 1, "CSS": 2,
+    "Javascript": 2, "PowerBI": 1, "Knowledge Engineering": 1, "Business Intelligence": 1,
+    "Camunda": 1, "Prolog": 1, "Protege": 1, "ADOxx": 1, "Decision Tables": 1,
+    "Ontologies": 1, "NoSQL": 1, "Digital Twins": 1, "Graph Database": 1,
+    "CRUD API": 1, "TypeDB Studio": 1, "Node.js": 1, "PostMan": 1, "Docker": 3,
+    "XAMPP": 1, "PHPMyAdmin": 1, "Agile Methodology": 3, "Test Driven": 2,
+    "JUnit": 3, "Digital Communication": 2, "Emotional Video": 2, "Unity": 5,
+    "3D Virtual Tour": 1, "WebGL": 2, "360 Virtual Tour": 1, "3D Vista": 1,
+    "Unity 3D": 2, ".NET": 1, "Jenkins": 1, "Swagger": 1, "ARKit": 2, "Figma": 4,
+    "GitHub Actions": 1, "Tomcat": 1, "ARCore": 2, "Augmented Reality": 2,
+    "Game Design": 3, "C#": 5, 
+  };
+  
+
+  const pastelColors = [
+    '#FFD1DC', '#B5EAD7', '#C7CEEA', '#FFDAC1', '#E2F0CB', '#D5AAFF',
+    '#FFF5BA', '#FFABAB', '#C3FBD8', '#A0CED9', '#F1F0C0', '#FFDEB4'
+  ];
+
+  function getRandomColor() {
+    return pastelColors[Math.floor(Math.random() * pastelColors.length)];
+  }
+
+  function getFontSize(count) {
+    // Min: 0.8rem, Max: 1.8rem (adjust as needed)
+    const minSize = 0.8;
+    const maxSize = 1.8;
+    const maxCount = Math.max(...Object.values(tagData));
+    return (minSize + ((count - 1) / (maxCount - 1)) * (maxSize - minSize)).toFixed(2) + "rem";
+  }
+
+  const tagMarquee = document.getElementById("tagMarquee");
+
+  const createTagElement = (tag, count) => {
+    const span = document.createElement("span");
+    span.className = "tag";
+    span.textContent = tag;
+    span.style.setProperty('--pastel-color', getRandomColor());
+    span.style.fontSize = getFontSize(count);
+    return span;
+  };
+
+  
+  
+  // Duplicate tags for infinite scroll illusion
+  const tags = Object.entries(tagData);
+  
+  
+  
+  [...tags, ...tags].forEach(([tag, count]) => {
+    const el = createTagElement(tag, count);
+    tagMarquee.appendChild(el);
+  });
+</script>
+
+</body>
+</html>
